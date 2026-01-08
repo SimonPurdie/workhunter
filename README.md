@@ -1,0 +1,1 @@
+WorkHunter is an environment for AI Agents to perform job search tasks.
