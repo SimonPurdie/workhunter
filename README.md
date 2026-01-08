@@ -36,5 +36,6 @@ Create a new directory under `scripts/` with:
 - Complete implementation
 - `README.md` explaining purpose, usage, inputs, and outputs
 - Any script-specific dependencies or configuration
+- Put any helper modules that aren’t meant to be executed directly in a lib/ subdirectory.
 
 Keep scripts independent. Shared type definitions go in `shared/types.py`.
