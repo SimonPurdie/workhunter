@@ -13,14 +13,15 @@ An AI-native environment providing modular scripts for job hunting tasks. Each s
 ## Structure
 
 ```
-job-hunt-tools/
+workhunter/
 ├── README.md           # This file
 ├── shared/
 │   └── types.py        # Pydantic models (shared contracts)
 └── scripts/
     └── job_search/     # Each script in its own directory
         ├── README.md   # How to use this script
-        └── *.py        # Implementation
+        ├── *.py        # Implementation
+        └── lib/        # non-entry point modules
 ```
 
 ## For AI Agents
