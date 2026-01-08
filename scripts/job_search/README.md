@@ -1,10 +1,10 @@
-# Instructions for AI Agents
+# Job Search Script
 
-This project provides a programmatic interface for job search tasks. You should use the provided CLI to discover, filter, and rank job listings.
+This script provides a programmatic interface for job search tasks using the Adzuna API. It allows agents to discover, filter, and rank job listings.
 
 ## Usage
 
-Run the search using `uv run python main.py`. The output is **always structured JSON**.
+Run the search using `python scripts/job_search/job_search.py`. The output is **always structured JSON**.
 
 ### CLI Arguments
 
@@ -21,7 +21,7 @@ Run the search using `uv run python main.py`. The output is **always structured 
 ### Example Command
 
 ```bash
-uv run python main.py --keywords "Data Analyst" --location "Reading" --salary-min 40000
+python scripts/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 40000
 ```
 
 ## Output Format

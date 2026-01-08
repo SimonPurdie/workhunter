@@ -1,12 +1,19 @@
 import argparse
 import json
 import sys
-from workhunter.discovery.adzuna import AdzunaClient, RateLimitExceeded
-from workhunter.models import SearchCriteria
-from workhunter.filtering import Engine
+from pathlib import Path
+
+# Add project root and script lib to sys.path
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+sys.path.append(str(PROJECT_ROOT))
+sys.path.append(str(Path(__file__).parent / "lib"))
+
+from shared.types import SearchCriteria
+from lib.adzuna import AdzunaClient, RateLimitExceeded
+from lib.engine import Engine
 
 def main():
-    parser = argparse.ArgumentParser(description="WorkHunter PoC - Job Search Helper")
+    parser = argparse.ArgumentParser(description="WorkHunter - Job Search Helper")
     parser.add_argument("--keywords", type=str, required=True, help="Job keywords")
     parser.add_argument("--location", type=str, required=True, help="Location (e.g., postcode or town)")
     parser.add_argument("--distance", type=int, default=10, help="Distance in miles")
@@ -40,9 +47,6 @@ def main():
             
             if not listings and current_page == 1 and any(c.isdigit() for c in criteria.location):
                 # Simple fallback: if location looks like a postcode and returns 0, try stripping it
-                # or just warn the agent. For PoC, let's try a broader search or just report 0.
-                # Actually, many UK postcodes have a town name nearby. 
-                # Let's just log that we are trying a broader search if 0 found.
                 break 
 
             filtered = engine.filter_jobs(listings)

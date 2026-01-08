@@ -2,8 +2,13 @@ import os
 import requests
 from typing import List, Optional
 from dotenv import load_dotenv
-from workhunter.models import JobListing, SearchCriteria
-from workhunter.discovery.state import UsageTracker
+import sys
+from pathlib import Path
+
+# Add project root to sys.path to allow importing shared types
+sys.path.append(str(Path(__file__).parent.parent.parent.parent))
+from shared.types import JobListing, SearchCriteria
+from .state import UsageTracker
 
 class RateLimitExceeded(Exception):
     def __init__(self, limit_info):

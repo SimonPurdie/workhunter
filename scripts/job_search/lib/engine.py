@@ -1,6 +1,11 @@
 from typing import List
 import re
-from workhunter.models import JobListing, SearchCriteria
+import sys
+from pathlib import Path
+
+# Add project root to sys.path to allow importing shared types
+sys.path.append(str(Path(__file__).parent.parent.parent.parent))
+from shared.types import JobListing, SearchCriteria
 
 class Engine:
     def __init__(self, criteria: SearchCriteria):

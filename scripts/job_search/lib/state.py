@@ -6,7 +6,8 @@ from typing import Dict, Any
 
 class UsageTracker:
     def __init__(self, state_file: str = ".adzuna_usage.json"):
-        self.state_file = state_file
+        # Put state file in project root
+        self.state_file = os.path.join(os.getcwd(), state_file)
         self.limits = {
             "minute": 25,
             "day": 250,
