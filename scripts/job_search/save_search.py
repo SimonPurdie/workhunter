@@ -15,6 +15,13 @@ from datetime import datetime
 from pathlib import Path
 import subprocess
 
+# Add project root and script lib to sys.path
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+sys.path.append(str(PROJECT_ROOT))
+sys.path.append(str(Path(__file__).parent / "lib"))
+
+import lib.job_tracker as job_tracker
+
 def get_next_filename(base_dir, date_str):
     """Find next available number for today's date."""
     counter = 1
@@ -64,6 +71,12 @@ def main():
                 with open(md_path, 'w') as f:
                     f.write(result.stdout)
         
+        # Track these jobs
+        job_tracker.add_seen_jobs(data)
+        
+        # Periodic cleanup
+        job_tracker.cleanup_old_entries(days=60)
+
         # Output success message
         print(json.dumps({
             "status": "success",

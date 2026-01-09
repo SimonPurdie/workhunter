@@ -11,9 +11,12 @@ sys.path.append(str(Path(__file__).parent / "lib"))
 from shared.types import SearchCriteria
 from lib.adzuna import AdzunaClient, RateLimitExceeded
 from lib.engine import Engine
+import lib.job_tracker as job_tracker
 
 def main():
     parser = argparse.ArgumentParser(description="WorkHunter - Job Search Helper")
+    
+
     parser.add_argument("--keywords", type=str, required=True, help="Job keywords")
     parser.add_argument("--location", type=str, required=True, help="Location (e.g., postcode or town)")
     parser.add_argument("--distance", type=int, default=10, help="Distance in miles")
@@ -23,6 +26,10 @@ def main():
     parser.add_argument("--target-count", type=int, help="Target number of filtered results")
     
     args = parser.parse_args()
+
+    # Load seen hashes at start
+    seen_jobs = job_tracker.load_seen_jobs()
+    seen_hashes = {j["hash"] for j in seen_jobs}
     
     criteria = SearchCriteria(
         keywords=args.keywords,
@@ -50,7 +57,18 @@ def main():
                 break 
 
             filtered = engine.filter_jobs(listings)
-            all_matches.extend(filtered)
+            
+            # Deduplicate against seen jobs
+            final_filtered = []
+            for job in filtered:
+                job_hash = job_tracker.generate_hash(job.company, job.title, job.location)
+                if job_hash not in seen_hashes:
+                    final_filtered.append(job)
+                else:
+                    # Optional: log or skip
+                    pass
+            
+            all_matches.extend(final_filtered)
             
             if len(listings) < criteria.results_per_page or not criteria.target_count:
                 break
