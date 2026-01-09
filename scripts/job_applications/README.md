@@ -54,7 +54,6 @@ workspace/applications/job-20260109-1/
 Once the application package is populated:
 1. Double check that all artifacts (research, instructions, cv_suggestions, drafts) exist in the folder.
 2. Inform the user that the package is ready for review, referencing the specific folder name.
-*(Note: You do not need to move files to a 'completed' folder; the claiming script has already removed the job from the pending queue.)*
 
 ## Task Completion Checklist
 
