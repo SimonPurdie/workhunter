@@ -1,0 +1,32 @@
+[
+    {
+      "title": "Data Analyst",
+      "company": "Tech Innovations Ltd",
+      "location": "Reading, Berkshire",
+      "salary_min": 35000,
+      "salary_max": 45000,
+      "redirect_url": "https://www.adzuna.co.uk/jobs/details/1234567890",
+      "description": "We are seeking an experienced Data Analyst to join our growing analytics team. You'll work with large datasets, create visualizations, and drive data-driven decision making. Required: Python, SQL, Tableau. 3+ years experience.",
+      "agent_notes": "Excellent match - specifically mentions Python and SQL which are core requirements. Salary is at the higher end of the range. Company is well-established in the tech sector."
+    },
+    {
+      "title": "Junior Data Analyst - Financial Services",
+      "company": "Global Finance Corp",
+      "location": "Reading, Berkshire",
+      "salary_min": 28000,
+      "salary_max": 33000,
+      "redirect_url": "https://www.adzuna.co.uk/jobs/details/9876543210",
+      "description": "Join our finance team as a Junior Data Analyst. Analyze financial data, create reports for stakeholders, and identify trends. Strong Excel required, Python preferred.",
+      "agent_notes": "Good fit but salary is low. Financial services experience could be valuable. Role emphasizes reporting which aligns with stated interests."
+    },
+    {
+      "title": "Lead Data Analyst",
+      "company": "Healthcare Analytics UK",
+      "location": "Reading, Berkshire",
+      "salary_min": 50000,
+      "salary_max": 60000,
+      "redirect_url": "https://www.adzuna.co.uk/jobs/details/1111122222",
+      "description": "Lead our data analytics function in the healthcare sector. Manage a small team, design analytics solutions, and present insights to C-level executives. 5+ years experience, healthcare domain knowledge beneficial.",
+      "agent_notes": "Highest salary in the search but requires leadership experience. Healthcare domain is new but could be interesting career pivot. Worth considering if open to management track."
+    }
+  ]

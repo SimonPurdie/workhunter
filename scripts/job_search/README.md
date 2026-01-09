@@ -21,7 +21,7 @@ Run the search using `python scripts/job_search/job_search.py`. The output is **
 ### Example Command
 
 ```bash
-python scripts/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 40000
+python scripts/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 30000
 ```
 
 ## Output Format
@@ -51,3 +51,114 @@ Adzuna's free tier has strict limits. This tool automatically tracks usage in `.
 1.  **Use `--target-count`**: Instead of scanning pages manually, set `--target-count 5` to let the script handle pagination logic.
 2.  **Location Fallback**: The script attempts to fallback if a specific postcode returns 0 results. If you get 0 results, try a broader town name.
 3.  **Check Usage**: If you are performing a large batch of tasks, monitor your quota to avoid blocking yourself.
+
+---
+
+## Agent Task Completion Requirements
+
+You are expected to curate job search results based on user input. Your role is to:
+- Run multiple searches with different keywords/parameters if needed
+- Review job descriptions and filter out poor matches
+- Identify the best opportunities based on requirements
+- Add context or notes explaining why you selected certain jobs
+
+The task is NOT complete until you output curated results to the `workspace/` directory.
+
+### Required Workflow
+
+```bash
+# 1. Run searches (potentially multiple times)
+python scripts/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 30000 > raw1.json
+python scripts/job_search/job_search.py --keywords "Business Analyst" --location "Reading" --salary-min 30000 > raw2.json
+
+# 2. Review, filter, and curate results (you can do this programmatically or by analysis)
+
+# 3. Output your curated JSON and save
+echo '[{"title": "...", "company": "...", ...}]' | python scripts/job_search/save_search.py
+```
+
+### Curated JSON Output Schema
+
+After your analysis, output a JSON array with this structure:
+
+```json
+[
+  {
+    "title": "Senior Data Analyst",
+    "company": "Tech Innovations Ltd",
+    "location": "Reading, Berkshire",
+    "salary_min": 45000,
+    "salary_max": 55000,
+    "redirect_url": "https://www.adzuna.co.uk/jobs/details/1234567890",
+    "description": "Job description snippet...",
+    "agent_notes": "Strong match - emphasizes Python and SQL which align with requirements. Team size is 5-10 analysts."
+  }
+]
+```
+
+**Required fields for each job**:
+- `title` (string)
+- `company` (string)
+- `location` (string)
+- `salary_min` (number or null)
+- `salary_max` (number or null)
+- `redirect_url` (string) - **CRITICAL: Must always be included**
+- `description` (string) - Can be a snippet or summary
+
+**Optional but recommended**:
+- `agent_notes` (string) - Your reasoning for why this job is a good match
+
+### Saving Your Curated Results
+
+Pipe your final JSON to `save_search.py`:
+
+```bash
+# From a file
+cat curated_jobs.json | python scripts/job_search/save_search.py
+
+# Or directly from your script/command
+python your_curation_script.py | python scripts/job_search/save_search.py
+```
+
+This automatically creates:
+- `workspace/jobsearch_YYYYMMDD_N.json` - Your curated JSON
+- `workspace/jobsearch_YYYYMMDD_N.md` - Human-readable report with ALL job URLs
+
+### Output File Naming
+
+Files follow the pattern: `jobsearch_YYYYMMDD_#`
+- Date is automatically added (e.g., `20260108`)
+- Counter auto-increments if you run multiple searches per day (e.g., `_1`, `_2`, `_3`)
+- The `workspace/` folder is at the project root for easy access
+
+### Manual Markdown Formatting (Optional)
+
+If you need to format existing JSON separately:
+
+```bash
+python scripts/job_search/format_markdown.py < jobs.json > report.md
+```
+
+### What Must Be In Your Final Output
+
+Every job in your curated list MUST include:
+1. Job title
+2. Company name
+3. Salary range (even if one bound is null)
+4. Location
+5. **The `redirect_url` - this is critical**
+6. Description or summary
+
+Optional but valuable:
+- Your notes on why this job is a good match
+- Any concerns or caveats
+- Comparison notes if multiple similar positions exist
+
+### Workspace Maintenance
+
+The `workspace/` directory may accumulate files over time. Periodically clean old searches:
+
+```bash
+# Keep only last 30 days
+find workspace/ -name "jobsearch_*" -mtime +30 -delete
+```

@@ -32,6 +32,7 @@ htmlcov/
 .idea/
 *.swp
 *.swo
+.cursorrules
 
 # Project specific state/logs
 .adzuna_usage.json
