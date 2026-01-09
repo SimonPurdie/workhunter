@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Saves job search results to workspace with automatic naming.
-Usage: python modules/job_search/save_search.py < jobs.json
+Usage: uv run modules/job_search/save_search.py < jobs.json
 
 Creates:
   - workspace/jobsearch_YYYYMMDD_N.json

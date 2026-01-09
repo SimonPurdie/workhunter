@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Converts job search JSON output to a formatted markdown report.
-Usage: python modules/job_search/format_markdown.py < jobs.json > output.md
+Usage: uv run modules/job_search/format_markdown.py < jobs.json > output.md
 """
 
 import json
