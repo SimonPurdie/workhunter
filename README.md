@@ -1,4 +1,4 @@
-# Job Hunt Tools
+# workhunter
 
 An AI-native environment providing modular scripts for job hunting tasks. Each script is self-documenting and designed to be discovered and used by agentic AI systems.
 
