@@ -17,7 +17,7 @@ Assist the user in applying to jobs by:
 ### Step 0: Claim a Job
 Run the following script to extract a job from the queue and generate a working directory:
 
-`python scripts/job_applications/claim_job.py`
+`python modules/job_applications/claim_job.py`
 
 If the script returns "No jobs found", the process is complete.
 If successful, the script will output a `DIRECTORY` path. **This is your workspace for this session.**
@@ -42,7 +42,7 @@ The helper script automatically generates the folder name (e.g., `job-20260109-1
 Your task is to populate this folder with the required artifacts.
 
 ```
-workspace/applications/job-20260109-1/
+workspace/roles/job-20260109-1/
 ├── job.json                    # Original job details
 ├── research.md                 # Company research findings
 ├── application_instructions.md # How to apply

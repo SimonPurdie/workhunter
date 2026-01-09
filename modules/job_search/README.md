@@ -1,10 +1,10 @@
-# Job Search Script
+# Job Search Module
 
 This script provides a programmatic interface for job search tasks using the Adzuna API. It allows agents to discover, filter, and rank job listings.
 
 ## Usage
 
-Run the search using `python scripts/job_search/job_search.py`. The output is **always structured JSON**.
+Run the search using `python modules/job_search/job_search.py`. The output is **always structured JSON**.
 
 ### CLI Arguments
 
@@ -21,7 +21,7 @@ Run the search using `python scripts/job_search/job_search.py`. The output is **
 ### Example Command
 
 ```bash
-python scripts/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 30000
+python modules/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 30000
 ```
 
 ## Output Format
@@ -68,13 +68,13 @@ The task is NOT complete until you output curated results to the `workspace/` di
 
 ```bash
 # 1. Run searches (potentially multiple times)
-python scripts/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 30000 > raw1.json
-python scripts/job_search/job_search.py --keywords "Business Analyst" --location "Reading" --salary-min 30000 > raw2.json
+python modules/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 30000 > raw1.json
+python modules/job_search/job_search.py --keywords "Business Analyst" --location "Reading" --salary-min 30000 > raw2.json
 
 # 2. Review, filter, and curate results (you can do this programmatically or by analysis)
 
 # 3. Output your curated JSON and save
-echo '[{"title": "...", "company": "...", ...}]' | python scripts/job_search/save_search.py
+echo '[{"title": "...", "company": "...", ...}]' | python modules/job_search/save_search.py
 ```
 
 ### Curated JSON Output Schema
@@ -114,10 +114,10 @@ Pipe your final JSON to `save_search.py`:
 
 ```bash
 # From a file
-cat curated_jobs.json | python scripts/job_search/save_search.py
+cat curated_jobs.json | python modules/job_search/save_search.py
 
 # Or directly from your script/command
-python your_curation_script.py | python scripts/job_search/save_search.py
+python your_curation_script.py | python modules/job_search/save_search.py
 ```
 
 This automatically creates:
@@ -136,7 +136,7 @@ Files follow the pattern: `jobsearch_YYYYMMDD_#`
 If you need to format existing JSON separately:
 
 ```bash
-python scripts/job_search/format_markdown.py < jobs.json > report.md
+python modules/job_search/format_markdown.py < jobs.json > report.md
 ```
 
 ### What Must Be In Your Final Output
