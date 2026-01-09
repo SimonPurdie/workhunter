@@ -38,3 +38,4 @@ htmlcov/
 .adzuna_usage.json
 *.log
 workspace/
+userprofile/

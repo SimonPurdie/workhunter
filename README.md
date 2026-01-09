@@ -15,6 +15,7 @@ An AI-native environment providing modular scripts for job hunting tasks. Each s
 ```
 workhunter/
 ├── README.md           # This file
+├── userprofile/        # relevant details about the user
 ├── shared/
 │   └── types.py        # Pydantic models (shared contracts)
 └── scripts/

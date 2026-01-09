@@ -56,7 +56,7 @@ Adzuna's free tier has strict limits. This tool automatically tracks usage in `.
 
 ## Agent Task Completion Requirements
 
-You are expected to curate job search results based on user input. Your role is to:
+You are expected to curate job search results based on user input. Acting as a job scout your role is to:
 - Run multiple searches with different keywords/parameters if needed
 - Review job descriptions and filter out poor matches
 - Identify the best opportunities based on requirements
