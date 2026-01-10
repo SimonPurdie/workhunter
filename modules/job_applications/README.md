@@ -17,7 +17,7 @@ Assist the user in applying to jobs by:
 ### Step 0: Claim a Job
 Run the following script to extract a job from the queue and generate a working directory:
 
-`python modules/job_applications/claim_job.py`
+`uv run modules/job_applications/claim_job.py`
 
 If the script returns "No jobs found", the process is complete.
 If successful, the script will output a `DIRECTORY` path. **This is your workspace for this session.**

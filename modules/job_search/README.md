@@ -4,7 +4,7 @@ This script provides a programmatic interface for job search tasks using the Adz
 
 ## Usage
 
-Run the search using `python modules/job_search/job_search.py`. The output is **always structured JSON**.
+Run the search using `uv run modules/job_search/job_search.py`. The output is **always structured JSON**.
 
 ### CLI Arguments
 
@@ -21,7 +21,7 @@ Run the search using `python modules/job_search/job_search.py`. The output is **
 ### Example Command
 
 ```bash
-python modules/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 30000
+uv run modules/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 30000
 ```
 
 ## Output Format
@@ -51,6 +51,7 @@ Adzuna's free tier has strict limits. This tool automatically tracks usage in `.
 1.  **Use `--target-count`**: Instead of scanning pages manually, set `--target-count 5` to let the script handle pagination logic.
 2.  **Location Fallback**: The script attempts to fallback if a specific postcode returns 0 results. If you get 0 results, try a broader town name.
 3.  **Check Usage**: If you are performing a large batch of tasks, monitor your quota to avoid blocking yourself.
+4.  **Result Filtering**: Be aware that the script automatically prevents results being returned that have been served to the user in previous sessions.
 
 ---
 
@@ -68,13 +69,13 @@ The task is NOT complete until you output curated results to the `workspace/` di
 
 ```bash
 # 1. Run searches (potentially multiple times)
-python modules/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 30000 > raw1.json
-python modules/job_search/job_search.py --keywords "Business Analyst" --location "Reading" --salary-min 30000 > raw2.json
+uv run modules/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 30000 > raw1.json
+uv run modules/job_search/job_search.py --keywords "Business Analyst" --location "Reading" --salary-min 30000 > raw2.json
 
 # 2. Review, filter, and curate results (you can do this programmatically or by analysis)
 
 # 3. Output your curated JSON and save
-echo '[{"title": "...", "company": "...", ...}]' | python modules/job_search/save_search.py
+echo '[{"title": "...", "company": "...", ...}]' | uv run modules/job_search/save_search.py
 ```
 
 ### Curated JSON Output Schema
@@ -114,10 +115,10 @@ Pipe your final JSON to `save_search.py`:
 
 ```bash
 # From a file
-cat curated_jobs.json | python modules/job_search/save_search.py
+cat curated_jobs.json | uv run modules/job_search/save_search.py
 
 # Or directly from your script/command
-python your_curation_script.py | python modules/job_search/save_search.py
+uv run your_curation_script.py | uv run modules/job_search/save_search.py
 ```
 
 This automatically creates:
@@ -136,7 +137,7 @@ Files follow the pattern: `jobsearch_YYYYMMDD_#`
 If you need to format existing JSON separately:
 
 ```bash
-python modules/job_search/format_markdown.py < jobs.json > report.md
+uv run modules/job_search/format_markdown.py < jobs.json > report.md
 ```
 
 ### What Must Be In Your Final Output
@@ -153,12 +154,3 @@ Optional but valuable:
 - Your notes on why this job is a good match
 - Any concerns or caveats
 - Comparison notes if multiple similar positions exist
-
-### Workspace Maintenance
-
-The `workspace/` directory may accumulate files over time. Periodically clean old searches:
-
-```bash
-# Keep only last 30 days
-find workspace/ -name "jobsearch_*" -mtime +30 -delete
-```

@@ -15,7 +15,7 @@ An AI-native environment providing modular components for job hunting tasks. Eac
 ```
 workhunter/
 ├── README.md           # This file
-├── userprofile/        # relevant details about the user
+├── userprofile/        # *IMPORTANT* Details about the user which are relevant to job hunting activities
 ├── shared/
 │   └── types.py        # Pydantic models (shared contracts)
 └── modules/
@@ -31,6 +31,8 @@ workhunter/
 2. Read the `README.md` in each module directory for complete documentation
 3. Check `shared/types.py` for input/output schemas
 4. Execute modules as documented
+5. Do NOT modify project files or the environment unless explicitly instructed.
+6. Prefix all Python commands with uv run (e.g., uv run python script.py)
 
 ## Adding New Modules
 
