@@ -6,6 +6,7 @@ description: Claims the next job from the queue, moves it to a unique role folde
 import os
 import json
 import glob
+import re
 from datetime import datetime
 from pathlib import Path
 
@@ -15,33 +16,49 @@ QUEUE_DIR = ROOT_DIR / "workspace" / "roles" / "queue"
 APPS_DIR = ROOT_DIR / "workspace" / "roles"
 
 
-def get_next_application_folder():
+def slugify_company(company_name):
     """
-    Determines the next available folder name based on the date and an incremental counter.
-    Format: job-YYYYMMDD-#
+    Convert company name to a slugified string, max 16 characters.
+    """
+    # Convert to lowercase and replace non-alphanumeric with hyphens
+    slug = re.sub(r"[^a-z0-9]+", "-", company_name.lower())
+    # Remove leading/trailing hyphens and limit to 16 chars
+    slug = slug.strip("-")[:16]
+    return slug
+
+
+def get_next_application_folder(job_record):
+    """
+    Determines the next available folder name based on the date, an incremental counter,
+    and the company name.
+    Format: YYYYMMDD-#-<company>
     """
     date_str = datetime.now().strftime("%Y%m%d")
+    company = job_record.get("company", "unknown")
+    company_slug = slugify_company(company)
 
     # Ensure directory exists
     os.makedirs(APPS_DIR, exist_ok=True)
 
-    # Find existing folders for today
-    pattern = APPS_DIR / f"job-{date_str}-*"
+    # Find existing folders for today with any company
+    pattern = APPS_DIR / f"{date_str}-*"
     existing_dirs = glob.glob(str(pattern))
 
     max_count = 0
     for path in existing_dirs:
         try:
-            # Extract the number at the end
+            # Extract the number from format: YYYYMMDD-#-company
             folder_name = os.path.basename(path)
-            count = int(folder_name.split("-")[-1])
-            if count > max_count:
-                max_count = count
+            parts = folder_name.split("-")
+            if len(parts) >= 2:
+                count = int(parts[1])
+                if count > max_count:
+                    max_count = count
         except (ValueError, IndexError):
             continue
 
     new_count = max_count + 1
-    new_folder_name = f"job-{date_str}-{new_count}"
+    new_folder_name = f"{date_str}-{new_count}-{company_slug}"
     return APPS_DIR / new_folder_name
 
 
@@ -77,7 +94,7 @@ def claim_job():
         current_job = jobs.pop(0)
 
         # 3. Create the new application folder
-        new_app_dir = get_next_application_folder()
+        new_app_dir = get_next_application_folder(current_job)
         os.makedirs(new_app_dir, exist_ok=True)
 
         # 4. Write the job.json to the new folder
