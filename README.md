@@ -14,7 +14,8 @@ An AI-native environment providing modular components for job hunting tasks. Eac
 
 ```
 workhunter/
-├── README.md           # This file
+├── README.md
+├── pyproject.toml      # uses uv for environment management
 ├── userprofile/        # *IMPORTANT* Details about the user which are relevant to job hunting activities
 ├── shared/
 │   └── types.py        # Pydantic models (shared contracts)
