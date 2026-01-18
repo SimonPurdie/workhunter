@@ -13,15 +13,40 @@ Run the search using `uv run modules/job_search/job_search.py`. The output is **
 | `--keywords` | Job titles or skills (e.g., "Data Analyst") | Yes | - |
 | `--location` | Town, city, or UK postcode | Yes | - |
 | `--salary-min` | Minimum annual salary (GBP) | No | - |
+| `--salary-max` | Maximum annual salary (GBP) | No | - |
 | `--distance` | Search radius in miles | No | 10 |
 | `--results-per-page` | Number of raw results to fetch | No | 20 |
+| `--page` | Start at specific page | No | 1 |
 | `--target-count` | Fetch until N filtered results found (auto-pagination) | No | - |
+| `--sort-by` | Sort server-side: `date` or `salary` | No | - |
+| `--what-exclude` | Exclude keywords from results (e.g., "senior") | No | - |
+| `--full-time` | Filter to full-time positions only | No | False |
+| `--permanent` | Filter to permanent positions only | No | False |
+| `--contract` | Filter to contract positions only | No | False |
+| `--part-time` | Filter to part-time positions only | No | False |
+| `--days-old` | Maximum posting age in days (e.g., 7) | No | - |
 | `--page` | Start at specific page | No | 1 |
 
 ### Example Command
 
 ```bash
 uv run modules/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 30000
+```
+
+### Additional Examples
+
+```bash
+# Full-time permanent positions only, sorted by most recent
+uv run modules/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --salary-min 30000 --full-time --permanent --sort-by date
+
+# Exclude certain keywords (e.g., exclude senior/lead roles)
+uv run modules/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --what-exclude "senior lead manager"
+
+# Jobs posted within last 7 days
+uv run modules/job_search/job_search.py --keywords "Data Analyst" --location "Reading" --days-old 7
+
+# Salary range with contract positions
+uv run modules/job_search/job_search.py --keywords "Data Scientist" --location "Reading" --salary-min 35000 --salary-max 50000 --contract
 ```
 
 ## Output Format
@@ -52,6 +77,20 @@ Adzuna's free tier has strict limits. This tool automatically tracks usage in `.
 2.  **Location Fallback**: The script attempts to fallback if a specific postcode returns 0 results. If you get 0 results, try a broader town name.
 3.  **Check Usage**: If you are performing a large batch of tasks, monitor your quota to avoid blocking yourself.
 4.  **Result Filtering**: Be aware that the script automatically prevents results being returned that have been served to the user in previous sessions.
+5.  **Server-side Filtering**: Use flags like `--full-time`, `--permanent`, `--sort-by`, and `--what-exclude` to reduce data transfer and improve performance. Only use client-side filtering when server-side options are insufficient.
+6.  **Date Filtering**: Use `--days-old` to focus on recent postings without needing to manually check dates.
+
+## API Interaction Features
+
+The script interfaces directly with Adzuna's search API and supports the following optimizations:
+
+- **Server-side Filtering**: Contract type and keyword exclusion are handled by Adzuna's API, reducing bandwidth and improving response times
+- **Server-side Sorting**: Results can be sorted by `date` or `salary` at the API level
+- **Salary Range**: Both minimum and maximum salary bounds can be specified to narrow results
+- **JSON Responses**: Explicitly sets `content-type=application/json` for reliable structured output
+- **Date-based Filtering**: The `--days-old` parameter filters job postings by age using the `created` timestamp field
+
+The script also implements client-side deduplication using MD5 hashes of job signatures to prevent returning the same role across search sessions.
 
 ---
 
