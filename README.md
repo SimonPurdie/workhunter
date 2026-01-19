@@ -44,3 +44,7 @@ Create a new directory under `modules/` with:
 - Put any helper modules that aren't meant to be executed directly in a lib/ subdirectory.
 
 Keep modules independent. Shared type definitions go in `shared/types.py`.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
