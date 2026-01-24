@@ -6,8 +6,7 @@ An AI-native environment providing modular components for job hunting tasks. Eac
 
 ## Structure
 
-This workspace follows the **IKEA pattern** for organizing documentation and tools for AI agents.
-**New here?** Read [IKEA.md](./IKEA.md) to understand how this workspace is structured and why.
+**IMPORTANT:** Read [IKEA.md](./IKEA.md) to understand how to navigate and use this workspace.
 
 ## Environment
 
