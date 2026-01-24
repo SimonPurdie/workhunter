@@ -12,7 +12,7 @@ An AI-native environment providing modular components for job hunting tasks. Eac
 
 ## Structure
 
-```
+```filesystem
 workhunter/
 ├── README.md
 ├── pyproject.toml      # uses uv for environment management
@@ -38,10 +38,11 @@ workhunter/
 ## Adding New Modules
 
 Create a new directory under `modules/` with:
+
 - Complete implementation
 - `README.md` explaining purpose, usage, inputs, and outputs
 - Any module-specific dependencies or configuration
-- Put any helper modules that aren't meant to be executed directly in a lib/ subdirectory.
+- Put any helper components that aren't meant to be executed directly in a lib/ subdirectory.
 
 Keep modules independent. Shared type definitions go in `shared/types.py`.
 
