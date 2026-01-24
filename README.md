@@ -9,21 +9,6 @@ An AI-native environment providing modular components for job hunting tasks. Eac
 This workspace follows the **IKEA pattern** for organizing documentation and tools for AI agents.
 **New here?** Read [IKEA.md](./IKEA.md) to understand how this workspace is structured and why.
 
-```filesystem
-workhunter/
-├── README.md
-├── IKEA.md
-├── pyproject.toml      # uses uv for environment management
-├── context/            # Shared information (CVs, profile, etc.)
-├── shared_formats/     # Shared data rules and types
-├── work/               # Outputs from modules
-└── modules/
-    └── job_search/     # Each module in its own directory
-        ├── INSTRUCTIONS.md
-        ├── *.py        # Implementation
-        └── components/ # Internal module components
-```
-
 ## Environment
 
 - **Operating System:** Linux (development environment)
@@ -34,11 +19,9 @@ workhunter/
 
 **Your role:** Execute tasks using existing modules. The workspace structure is maintained by humans.
 
-1. List `modules/` to see available capabilities
+1. List `modules/` to discover capabilities by module name
 2. Read the `INSTRUCTIONS.md` in each module directory for complete documentation
-3. Check `shared_formats/types.py` for input/output schemas
-4. Execute modules as documented
-5. Do NOT modify project files or the environment unless explicitly instructed.
+3. If you need a new module, missing dependency, or structural change - ask the human user rather than implementing it yourself
 
 ## Shared Information
 
