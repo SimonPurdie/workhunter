@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch, MagicMock
-from modules.job_search.lib.adzuna import AdzunaClient, RateLimitExceeded
-from shared.types import SearchCriteria
+from modules.job_search.components.adzuna import AdzunaClient, RateLimitExceeded
+from shared_formats.types import SearchCriteria
 
 
 @pytest.fixture
@@ -32,7 +32,7 @@ def test_adzuna_client_search(mock_adzuna_response):
         mock_get.return_value.json.return_value = mock_adzuna_response
 
         # We need to mock UsageTracker to avoid state file issues during tests
-        with patch("modules.job_search.lib.adzuna.UsageTracker") as mock_tracker:
+        with patch("modules.job_search.components.adzuna.UsageTracker") as mock_tracker:
             mock_tracker.return_value.check_and_increment.return_value = True
 
             client = AdzunaClient()
@@ -45,7 +45,7 @@ def test_adzuna_client_search(mock_adzuna_response):
 
 
 def test_adzuna_client_rate_limit():
-    with patch("modules.job_search.lib.adzuna.UsageTracker") as mock_tracker:
+    with patch("modules.job_search.components.adzuna.UsageTracker") as mock_tracker:
         mock_tracker.return_value.check_and_increment.return_value = False
         mock_tracker.return_value.get_limit_info.return_value = {
             "current": {"minute": 25},

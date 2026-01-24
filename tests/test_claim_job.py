@@ -105,19 +105,19 @@ class TestClaimJobIntegration:
     """Integration test for the full claim_job process"""
 
     @pytest.fixture
-    def temp_workspace(self):
-        """Create temporary workspace directories"""
+    def temp_work(self):
+        """Create temporary work directories"""
         temp_dir = Path(tempfile.mkdtemp())
-        workspace = temp_dir / "workspace" / "roles"
-        queue_dir = workspace / "queue"
-        apps_dir = workspace
+        work = temp_dir / "work" / "roles"
+        queue_dir = work / "queue"
+        apps_dir = work
         queue_dir.mkdir(parents=True)
 
-        yield {"workspace_dir": workspace, "queue_dir": queue_dir, "apps_dir": apps_dir}
+        yield {"work_dir": work, "queue_dir": queue_dir, "apps_dir": apps_dir}
 
         shutil.rmtree(temp_dir)
 
-    def test_claim_single_job(self, temp_workspace):
+    def test_claim_single_job(self, temp_work):
         """Test claiming a single job from queue"""
         # Create test job in queue
         test_job = {
@@ -127,23 +127,23 @@ class TestClaimJobIntegration:
             "salary": "100000",
         }
 
-        queue_file = temp_workspace["queue_dir"] / "jobs.json"
+        queue_file = temp_work["queue_dir"] / "jobs.json"
         with open(queue_file, "w") as f:
             json.dump([test_job], f)
 
         # Mock the paths
         with patch(
-            "modules.job_applications.claim_job.QUEUE_DIR", temp_workspace["queue_dir"]
+            "modules.job_applications.claim_job.QUEUE_DIR", temp_work["queue_dir"]
         ):
             with patch(
                 "modules.job_applications.claim_job.APPS_DIR",
-                temp_workspace["apps_dir"],
+                temp_work["apps_dir"],
             ):
                 claim_job()
 
         # Verify job was moved
         date_str = datetime.now().strftime("%Y%m%d")
-        expected_dir = temp_workspace["apps_dir"] / f"{date_str}-1-technological-so"
+        expected_dir = temp_work["apps_dir"] / f"{date_str}-1-technological-so"
 
         assert expected_dir.exists()
         assert (expected_dir / "job.json").exists()
@@ -156,29 +156,29 @@ class TestClaimJobIntegration:
             moved_job = json.load(f)
             assert moved_job["company"] == "Technological Solutions Inc."
 
-    def test_claim_multiple_jobs_keeps_remaining(self, temp_workspace):
+    def test_claim_multiple_jobs_keeps_remaining(self, temp_work):
         """Test claiming one job when multiple are in queue"""
         # Create test jobs in queue
         job1 = {"title": "Python Developer", "company": "Company A"}
         job2 = {"title": "React Developer", "company": "Company B"}
 
-        queue_file = temp_workspace["queue_dir"] / "jobs.json"
+        queue_file = temp_work["queue_dir"] / "jobs.json"
         with open(queue_file, "w") as f:
             json.dump([job1, job2], f)
 
         # Claim first job
         with patch(
-            "modules.job_applications.claim_job.QUEUE_DIR", temp_workspace["queue_dir"]
+            "modules.job_applications.claim_job.QUEUE_DIR", temp_work["queue_dir"]
         ):
             with patch(
                 "modules.job_applications.claim_job.APPS_DIR",
-                temp_workspace["apps_dir"],
+                temp_work["apps_dir"],
             ):
                 claim_job()
 
         # Verify first job was moved
         date_str = datetime.now().strftime("%Y%m%d")
-        first_dir = temp_workspace["apps_dir"] / f"{date_str}-1-company-a"
+        first_dir = temp_work["apps_dir"] / f"{date_str}-1-company-a"
         assert first_dir.exists()
 
         # Verify second job remains in queue
@@ -188,22 +188,22 @@ class TestClaimJobIntegration:
             assert len(remaining_jobs) == 1
             assert remaining_jobs[0]["company"] == "Company B"
 
-    def test_empty_queue_no_error(self, temp_workspace):
+    def test_empty_queue_no_error(self, temp_work):
         """Test handling of empty queue"""
         with patch(
-            "modules.job_applications.claim_job.QUEUE_DIR", temp_workspace["queue_dir"]
+            "modules.job_applications.claim_job.QUEUE_DIR", temp_work["queue_dir"]
         ):
             with patch(
                 "modules.job_applications.claim_job.APPS_DIR",
-                temp_workspace["apps_dir"],
+                temp_work["apps_dir"],
             ):
                 # Should not raise an exception
                 claim_job()
 
         # No directories should be created (except the queue dir which exists by setup)
         apps_contents = [
-            p for p in temp_workspace["apps_dir"].iterdir() if p.name != "queue"
+            p for p in temp_work["apps_dir"].iterdir() if p.name != "queue"
         ]
-        queue_contents = list(temp_workspace["queue_dir"].iterdir())
+        queue_contents = list(temp_work["queue_dir"].iterdir())
         assert len(apps_contents) == 0
         assert len(queue_contents) == 0

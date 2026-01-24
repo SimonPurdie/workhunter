@@ -1,6 +1,6 @@
 import pytest
-from modules.job_search.lib.engine import Engine
-from shared.types import JobListing, SearchCriteria
+from modules.job_search.components.engine import Engine
+from shared_formats.types import JobListing, SearchCriteria
 
 
 @pytest.fixture

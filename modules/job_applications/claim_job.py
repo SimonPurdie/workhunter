@@ -12,8 +12,8 @@ from pathlib import Path
 
 # Configuration
 ROOT_DIR = Path(__file__).parent.parent.parent.resolve()
-QUEUE_DIR = ROOT_DIR / "workspace" / "roles" / "queue"
-APPS_DIR = ROOT_DIR / "workspace" / "roles"
+QUEUE_DIR = ROOT_DIR / "work" / "roles" / "queue"
+APPS_DIR = ROOT_DIR / "work" / "roles"
 
 
 def slugify_company(company_name):
@@ -64,7 +64,7 @@ def get_next_application_folder(job_record):
 
 def claim_job():
     """
-    Main logic to pop a job from the queue and set up the workspace.
+    Main logic to pop a job from the queue and set up the work directory.
     """
     # 1. Find the first available JSON file in the queue
     queue_files = sorted(list(QUEUE_DIR.glob("*.json")))

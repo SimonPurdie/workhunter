@@ -10,7 +10,7 @@ Compare the user's CV against the job requirements and provide specific, actiona
 
 ## Process
 
-1. Read the user's current CV from `userprofile/`
+1. Read the user's current CV from `context/`
 2. Analyze the job description for key requirements, skills, and keywords
 3. Identify gaps, matches, and opportunities for better alignment
 4. Provide specific, actionable suggestions

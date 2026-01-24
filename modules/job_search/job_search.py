@@ -3,15 +3,15 @@ import json
 import sys
 from pathlib import Path
 
-# Add project root and script lib to sys.path
+# Add project root and script directory to sys.path
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.append(str(PROJECT_ROOT))
-sys.path.append(str(Path(__file__).parent / "lib"))
+sys.path.append(str(Path(__file__).parent))
 
-from shared.types import SearchCriteria
-from lib.adzuna import AdzunaClient, RateLimitExceeded
-from lib.engine import Engine
-import lib.job_tracker as job_tracker
+from shared_formats.types import SearchCriteria
+from components.adzuna import AdzunaClient, RateLimitExceeded
+from components.engine import Engine
+import components.job_tracker as job_tracker
 
 
 def main():

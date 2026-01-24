@@ -20,10 +20,10 @@ Run the following script to extract a job from the queue and generate a working 
 `uv run modules/job_applications/claim_job.py`
 
 If the script returns "No jobs found", the process is complete.
-If successful, the script will output a `DIRECTORY` path. **This is your workspace for this session.**
+If successful, the script will output a `DIRECTORY` path. **This is your work directory for this session.**
 
 ### Process
-Once a job is claimed and the workspace is created, complete these steps in order inside the provided directory:
+Once a job is claimed and the folder is created, complete these steps in order inside the provided directory:
 
 1. **Company Research** - Investigate the company to gather context for the application
    - See `docs/research.md` for detailed guidance
@@ -31,18 +31,18 @@ Once a job is claimed and the workspace is created, complete these steps in orde
 2. **Application Method Analysis** - Visit the job posting and determine how to apply
    - See `docs/application_method.md` for detailed guidance
 
-3. **CV Review** - Compare the user's CV (in `userprofile/`) against job requirements
+3. **CV Review** - Compare the user's CV (in `context/`) against job requirements
    - See `docs/cv_review.md` for detailed guidance
 
 4. **Draft Materials** - Create cover letter and/or email as appropriate
    - See `docs/materials.md` for detailed guidance
 
 ### Output Structure
-The helper script automatically generates the folder name (e.g., `job-20260109-1`).
+The helper script automatically generates the folder name (e.g., `20260109-1-company-slug`).
 Your task is to populate this folder with the required artifacts.
 
 ```
-workspace/roles/job-20260109-1/
+work/roles/20260109-1-company-slug/
 ├── job.json                    # Original job details
 ├── research.md                 # Company research findings
 ├── application_instructions.md # How to apply

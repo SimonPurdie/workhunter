@@ -2,7 +2,7 @@ import os
 import time
 import json
 import pytest
-from modules.job_search.lib.state import UsageTracker
+from modules.job_search.components.state import UsageTracker
 
 
 @pytest.fixture

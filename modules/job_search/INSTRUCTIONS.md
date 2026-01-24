@@ -102,7 +102,7 @@ You are expected to curate job search results based on user input. Acting as a j
 - Identify the best opportunities based on requirements
 - Add context or notes explaining why you selected certain jobs
 
-The task is NOT complete until you output curated results to the `workspace/` directory.
+The task is NOT complete until you output curated results to the `work/` directory.
 
 ### Required Workflow
 
@@ -161,22 +161,22 @@ uv run your_curation_script.py | uv run modules/job_search/save_search.py
 ```
 
 This automatically creates:
-- `workspace/jobsearch_YYYYMMDD_N.json` - Your curated JSON
-- `workspace/jobsearch_YYYYMMDD_N.md` - Human-readable report with ALL job URLs
+- `work/jobsearch_YYYYMMDD_N.json` - Your curated JSON
+- `work/jobsearch_YYYYMMDD_N.md` - Human-readable report with ALL job URLs
 
 ### Output File Naming
 
 Files follow the pattern: `jobsearch_YYYYMMDD_#`
 - Date is automatically added (e.g., `20260108`)
 - Counter auto-increments if you run multiple searches per day (e.g., `_1`, `_2`, `_3`)
-- The `workspace/` folder is at the project root for easy access
+- The `work/` folder is at the project root for easy access
 
 ### Manual Markdown Formatting (Optional)
 
 If you need to format existing JSON separately:
 
 ```bash
-uv run modules/job_search/format_markdown.py < jobs.json > report.md
+uv run modules/job_search/components/format_markdown.py < jobs.json > report.md
 ```
 
 ### What Must Be In Your Final Output

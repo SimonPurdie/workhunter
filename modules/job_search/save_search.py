@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Saves job search results to workspace with automatic naming.
+Saves job search results to work with automatic naming.
 Usage: uv run modules/job_search/save_search.py < jobs.json
 
 Creates:
-  - workspace/jobsearch_YYYYMMDD_N.json
-  - workspace/jobsearch_YYYYMMDD_N.md
+  - work/jobsearch_YYYYMMDD_N.json
+  - work/jobsearch_YYYYMMDD_N.md
 """
 
 import json
@@ -15,12 +15,12 @@ from datetime import datetime
 from pathlib import Path
 import subprocess
 
-# Add project root and script lib to sys.path
+# Add project root and script directory to sys.path
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.append(str(PROJECT_ROOT))
-sys.path.append(str(Path(__file__).parent / "lib"))
+sys.path.append(str(Path(__file__).parent))
 
-import lib.job_tracker as job_tracker
+import components.job_tracker as job_tracker
 
 
 def get_next_filename(base_dir, date_str):
@@ -39,16 +39,16 @@ def main():
         # Read JSON from stdin
         data = json.load(sys.stdin)
 
-        # Ensure workspace directory exists
-        workspace = Path("workspace")
-        workspace.mkdir(exist_ok=True)
+        # Ensure work directory exists
+        work = Path("work")
+        work.mkdir(exist_ok=True)
 
         # Generate filename
         date_str = datetime.now().strftime("%Y%m%d")
-        base_name = get_next_filename(workspace, date_str)
+        base_name = get_next_filename(work, date_str)
 
-        json_path = workspace / f"{base_name}.json"
-        md_path = workspace / f"{base_name}.md"
+        json_path = work / f"{base_name}.json"
+        md_path = work / f"{base_name}.md"
 
         # Save JSON
         with open(json_path, "w") as f:
@@ -56,7 +56,7 @@ def main():
 
         # Generate markdown report
         script_dir = Path(__file__).parent
-        formatter = script_dir / "lib/format_markdown.py"
+        formatter = script_dir / "components/format_markdown.py"
 
         with open(json_path, "r") as json_file:
             result = subprocess.run(

@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, timezone
 
 # Add project root to sys.path to allow importing shared types
 sys.path.append(str(Path(__file__).parent.parent.parent.parent))
-from shared.types import JobListing, SearchCriteria
+from shared_formats.types import JobListing, SearchCriteria
 
 
 class Engine:

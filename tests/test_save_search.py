@@ -20,14 +20,14 @@ def save_search_script_path():
 
 
 @pytest.fixture
-def workspace_dir():
-    """Path to the workspace directory."""
+def work_dir():
+    """Path to the work directory."""
     script_dir = Path(__file__).parent.parent
-    return script_dir / "workspace"
+    return script_dir / "work"
 
 
 def test_save_search_creates_files_and_outputs_json(
-    example_json_path, save_search_script_path, workspace_dir
+    example_json_path, save_search_script_path, work_dir
 ):
     """Test that save_search.py creates JSON and markdown files and outputs success JSON."""
     # Read the example JSON input
@@ -42,7 +42,7 @@ def test_save_search_creates_files_and_outputs_json(
         input=input_json_str,
         capture_output=True,
         text=True,
-        cwd=workspace_dir.parent,  # Run from project root
+        cwd=work_dir.parent,  # Run from project root
     )
 
     # Verify the script ran successfully
@@ -95,14 +95,12 @@ def test_save_search_creates_files_and_outputs_json(
     json_file_path.unlink(missing_ok=True)
     md_file_path.unlink(missing_ok=True)
 
-    # Cleanup: Remove workspace directory if it's empty
-    if workspace_dir.exists() and not any(workspace_dir.iterdir()):
-        workspace_dir.rmdir()
+    # Cleanup: Remove work directory if it's empty
+    if work_dir.exists() and not any(work_dir.iterdir()):
+        work_dir.rmdir()
 
 
-def test_save_search_file_naming(
-    example_json_path, save_search_script_path, workspace_dir
-):
+def test_save_search_file_naming(example_json_path, save_search_script_path, work_dir):
     """Test that files are named correctly with date pattern."""
     # Read the example JSON input
     with open(example_json_path, "r") as f:
@@ -116,7 +114,7 @@ def test_save_search_file_naming(
         input=input_json_str,
         capture_output=True,
         text=True,
-        cwd=workspace_dir.parent,
+        cwd=work_dir.parent,
     )
 
     assert result.returncode == 0
