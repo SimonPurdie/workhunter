@@ -4,7 +4,7 @@ A friendly guide to getting started with AI-assisted job hunting. No coding expe
 
 ## What is WorkHunter?
 
-WorkHunter is a workspace where AI coding agents (like OpenCode, Cursor, or Codex) help you find and apply for jobs. You give the agent simple instructions like "find me data analyst jobs in Manchester", and it does the searching, filtering, and research for you.
+WorkHunter is a workspace where AI coding agents (like OpenCode, Antigravity, Cursor, or Codex) help you find and apply for jobs. You give the agent simple instructions like "find me data analyst jobs in Manchester", and it does the searching, filtering, and research for you.
 
 ## Prerequisites
 
@@ -13,14 +13,16 @@ Before you start, you'll need:
 1. **A computer** running Linux, macOS, or **Windows** (all supported!)
 2. **Python 3.11 or higher** installed
 3. **UV** - a modern Python package manager ([install instructions](https://docs.astral.sh/uv/getting-started/installation/))
-4. **An AI coding agent** - one of:
-   - **OpenCode** (free, open-source)
+4. **An AI coding agent** - such as:
+   - **OpenCode** (free, open-source, Linux/WSL only)
+   - **Google Antigravity** (free tier available)
    - **Cursor** (free tier available)
-   - **GitHub Copilot/Codex** (requires subscription)
+   - **GitHub Copilot (in VS Code)** (free tier available)
+   - **Codex CLI** (included in OpenAI ChatGPT Plus plan - check for free offers!)
    - **Claude Code** (requires subscription)
 5. **An Adzuna API account** (free) - for searching job listings
 
-**Windows Users:** Everything works natively on Windows (no WSL required). Just use PowerShell or Command Prompt instead of the bash commands shown below.
+**Windows Users:** Everything *should* work natively on Windows. I'd recommend WSL instead though (Windows Subsystem for Linux). If you use windows natively you'll need to use PowerShell or Command Prompt instead of the bash commands shown below.
 
 ## Step 1: Get Your Adzuna API Keys
 
@@ -35,6 +37,8 @@ WorkHunter uses Adzuna to search for jobs. You need free API credentials:
 You'll use these in the next step.
 
 ## Step 2: Clone the Repository
+
+Install Git if you don't have it: https://git-scm.com/
 
 Open a terminal and run:
 
@@ -68,13 +72,14 @@ This downloads all the necessary packages. It might take a minute or two.
 
 ## Step 5: Add Your CV/Resume
 
-1. Create a folder called `context`:
-   - **Linux/macOS:** `mkdir -p context`
-   - **Windows:** `mkdir context` (or just create it in File Explorer)
-2. Copy your CV/resume into that folder
-3. Name it something clear like `My CV.md` or `Resume.txt`
+1. Copy your CV/resume into the context/ folder. Its best if you can have it in a format that LLMs find easy to read, like markdown.
+2. Name it something clear like `My CV.md` or `Resume.txt`
+3. Make a file in the folder called `README.md` and enter text in it explaining info about the kind of jobs you want.
+   - What locations you want, how far can you travel.
+   - What salary you're looking for
+   - Do you want remote work? Part time work?
 
-The AI agent will read this when helping you apply for jobs.
+The AI agent will read this when helping you apply for jobs. Think of it as instructions you'd give to a person who was a dedicated Job Scout for you.
 
 ## How to Use WorkHunter
 
@@ -87,17 +92,17 @@ Open your AI coding agent in the workhunter folder. For example:
 opencode
 ```
 
-**With Cursor:**
-Open the workhunter folder in Cursor and start a chat with the AI.
+**With Cursor/Antigravity/VS Code:**
+Open the workhunter folder in the IDE and start a chat with the AI
 
 ### Basic Workflow
 
-Once the agent is running, give it simple commands:
+Once the agent is running, ALWAYS tell it to read the README.md so it understands the context of where it is and what kind of job its doing. Then give it simple commands:
 
 #### 1. Finding Jobs
 
 Say something like:
-> "Find me software developer jobs in London with a minimum salary of £40,000"
+> "Study README.md and find me some jobs"
 
 The agent will:
 - Search for jobs using the job_search module
@@ -106,11 +111,14 @@ The agent will:
 
 #### 2. Applying to Jobs
 
-Once you have jobs saved, say:
-> "Help me apply to the first job from yesterday's search"
+Once you have jobs saved, delete any jobs from the json file that you're not interested in, then put the file in
+`work/roles/queue/` (make the folders if they dont exist already)
+Then say something like:
+
+> "Read README.md and use the applications module to process a job"
 
 The agent will:
-- Claim that job from the queue
+- Claim a job from the queue
 - Research the company
 - Review your CV and suggest changes
 - Draft application materials (cover letter, email)
@@ -129,26 +137,6 @@ workhunter/
 │   └── roles/               # Application packages for each job
 └── .env                      # Your API keys (keep secret!)
 ```
-
-## Example Commands
-
-Here are some things you can ask the agent to do:
-
-**Search for jobs:**
-- "Search for marketing manager roles in Bristol"
-- "Find remote data analyst jobs with salary between £30k-£45k"
-- "Look for junior developer positions in Manchester posted in the last 7 days"
-
-**Filter and refine:**
-- "Show me only full-time permanent positions"
-- "Exclude senior or lead roles from the results"
-- "Sort by most recent postings"
-
-**Application help:**
-- "Research the company for the first job"
-- "Review my CV against this job description"
-- "Draft a cover letter for this role"
-- "Create an application package for job #3"
 
 ## Understanding Your Results
 
@@ -169,11 +157,9 @@ work/roles/20260124-1-company-name/
 
 ## Tips for Success
 
-1. **Be specific** - Tell the agent exactly what you want (salary, location, job type)
-2. **Review the results** - Check the markdown reports before applying
-3. **Iterate** - If the first search isn't great, try different keywords
-4. **Personalise** - Always review and personalise the AI-drafted materials
-5. **Track usage** - Adzuna has rate limits (25/min, 250/day). Check `.adzuna_usage.json` if you hit limits
+1. **You can be specific** - Tell the agent exactly what you want (salary, location, job type), or just let it improvise.
+2. **Iterate** - If the first search isn't great, try different keywords, or telling the agent how you'd like it done better.
+4. **Personalise** - Always review and personalise the AI-drafted materials before applying to jobs with them.
 
 ## Troubleshooting
 
@@ -187,26 +173,13 @@ work/roles/20260124-1-company-name/
 → You've hit Adzuna's API limits. Wait a bit and try again.
 
 **The agent doesn't understand my request**
-→ Be more specific. Instead of "find jobs", say "find data analyst jobs in Reading with minimum salary £30000"
+→ Try telling it to read the README.md
 
 **Windows-specific issues**
-→ On Windows, use `python` or `py` instead of `python3`. UV works the same way on all platforms.
-
-## Next Steps
-
-Once you're comfortable with the basics:
-
-1. Explore different search strategies (different keywords, locations)
-2. Customise the context/README.md with your specific job preferences
-3. Review and improve the AI-generated application materials
-4. Apply for jobs using the prepared packages!
+→ Agents might get confused about commands on Windows. If it seems to be trying to use bash commands that aren't working, try telling it that its in a Windows environment.
 
 ## Getting Help
 
 - Check the module INSTRUCTIONS.md files in `modules/job_search/` and `modules/job_applications/` for detailed technical info
-- Look at existing work in `work/roles/` to see examples
 - Ask the AI agent: "How do I use this workspace?" - it can read the documentation too!
-
----
-
-**Remember:** The AI agent is your helper, not a replacement for your judgment. Always review its work before applying to jobs!
+- If you have difficulty doing any part of setting up the environment, or using the coding agents, try asking a Web LLM for help - ChatGPT, Gemini or Claude. They should be able to help you find instructions for whatever you're having trouble with.
