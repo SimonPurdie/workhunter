@@ -10,7 +10,7 @@ WorkHunter is a workspace where AI coding agents (like OpenCode, Antigravity, Cu
 
 Before you start, you'll need:
 
-1. **A computer** running Linux, macOS, or **Windows** (all supported!)
+1. **A computer** running Linux, macOS, or Windows
 2. **Python 3.11 or higher** installed
 3. **UV** - a modern Python package manager ([install instructions](https://docs.astral.sh/uv/getting-started/installation/))
 4. **An AI coding agent** - such as:
