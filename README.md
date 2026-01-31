@@ -4,9 +4,13 @@
 
 An AI-native environment providing modular components for job hunting tasks. Each module is self-documenting and designed to be discovered and used by agentic AI systems.
 
+## Setup Guide
+
+If you're a human who wants help setting up this environment, or instructions about how to use it, check out the [SETUP GUIDE](SETUP_GUIDE.md).
+
 ## Structure
 
-**IMPORTANT:** Read [IKEA.md](./IKEA.md) to understand how to navigate and use this workspace.
+**IMPORTANT:** Agents should read [IKEA.md](./IKEA.md) to understand how to navigate and use this workspace.
 
 ## Environment
 
