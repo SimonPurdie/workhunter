@@ -10,7 +10,7 @@ An AI-native environment providing modular components for job hunting tasks. Eac
 
 ## Environment
 
-- **Operating System:** Linux (development environment)
+- **Operating System:** Linux, macOS, or Windows (all supported)
 - **How to run scripts:** Prefix all Python commands with `uv run` (e.g., `uv run python modules/job_search/job_search.py`)
 - **Special requirements:** API keys should be provided in a `.env` file at the root.
 
