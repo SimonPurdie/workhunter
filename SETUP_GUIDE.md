@@ -14,7 +14,7 @@ Before you start, you'll need:
 2. **Python 3.11 or higher** installed
 3. **UV** - a modern Python package manager ([install instructions](https://docs.astral.sh/uv/getting-started/installation/))
 4. **An AI coding agent** - such as:
-   - **OpenCode** (free, open-source, Linux/WSL only)
+   - **OpenCode** (free tier available, open-source)
    - **Google Antigravity** (free tier available)
    - **Cursor** (free tier available)
    - **GitHub Copilot (in VS Code)** (free tier available)
